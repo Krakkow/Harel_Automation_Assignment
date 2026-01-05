@@ -3,6 +3,7 @@ package com.harel.pages;
 import java.time.LocalDate;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.harel.utils.WebDriverCommonFunc;
 
@@ -25,11 +26,12 @@ public class DatePickingPage {
     // Expected values
     private static final String EXPECTED_DEPARTUE_TITLE_TEXT = "מתי יוצאים?";
     private static final String EXPECTED_RETURN_TITLE_TEXT = "מתי חוזרים?";
+    private static final String EXPECTED_TOTAL_DAYS = "סה\"כ: 31 ימים";
 
     public DatePickingPage(WebDriverCommonFunc web) {
         this.web = web;
         this.departueTitle = By.cssSelector("[data-hrl-bo='travel_start_date']");
-        this.returnTitle = By.cssSelector("[data-hrl-bo='travel_end_date']");
+        this.returnTitle = By.xpath("//div[@data-hrl-bo='bo-textField-endDateInput']/preceding-sibling::h2");
         this.departueDateInput = By.cssSelector("[data-hrl-bo='startDateInput_input']");
         this.returnDateInput = By.cssSelector("[data-hrl-bo='endDateInput_input']");
         this.nextMonthButon = By.cssSelector("[data-hrl-bo='arrow-forward']");
@@ -123,6 +125,8 @@ public class DatePickingPage {
 
         // 4) Click the return date in the widget
         web.click(returnDayLocator);
+
+        isTotalDaysCountCorrect();
     }
 
     public void clickNext() {
@@ -141,7 +145,27 @@ public class DatePickingPage {
         web.click(previousMonthButton);
     }
 
+    public boolean isTotalDaysIndicatorExist() {
+        By totalDaysIndicator = By.cssSelector("[data-hrl-bo='total-days']");
+        return web.doesElementExist(totalDaysIndicator) && web.isVisible(totalDaysIndicator);
+    }
+
+    public boolean isTotalDaysCountCorrect() {
+        String actualDays = getTotalDaysCount();
+        if (actualDays.equals(EXPECTED_TOTAL_DAYS)) {
+            return true;
+        } else {
+            throw new IllegalStateException(
+                    "Total days count is incorrect. Expected: " + EXPECTED_TOTAL_DAYS + ", Actual: " + actualDays);
+        }
+    }
+
     private By getCalendarDayByIsoDate(String isoDate) {
         return By.cssSelector("[data-hrl-bo='" + isoDate + "']");
+    }
+
+    private String getTotalDaysCount() {
+        WebElement totalDaysElement = web.findElement(By.cssSelector("[data-hrl-bo='total-days']"));
+        return (totalDaysElement.getText());
     }
 }

@@ -41,6 +41,10 @@ public class LandingPage {
                 && web.findElement(subtitle).getText().equals(EXPECTED_SUBTITLE_TEXT);
     }
 
+    public boolean isFirstTimePurchaseButtonExist() {
+        return web.doesElementExist(firstPurchaseButton) && web.isVisible(firstPurchaseButton);
+    }
+
     // Actions
     public void clickFirstPurchaseButton() {
         web.click(firstPurchaseButton);

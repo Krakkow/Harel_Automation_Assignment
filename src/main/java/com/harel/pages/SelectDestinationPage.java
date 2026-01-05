@@ -18,15 +18,15 @@ public class SelectDestinationPage {
     private List<By> destinationOptions;
 
     // Expected values
-    private static final String EXPECTED_PAGE_TITLE_TEXT = "";
+    private static final String EXPECTED_PAGE_TITLE_TEXT = "בחרו יעד נסיעה";
     private static final int EXPECTED_DESTINATION_OPTIONS_COUNT = 8;
 
     public SelectDestinationPage(WebDriverCommonFunc web) {
         this.web = web;
-        this.pageTitle = By.cssSelector("[data-hrl-bo='select_destination_page_title']");
-        this.nextButton = By.cssSelector("[data-hrl-bo='select_destination_next_button']");
+        this.pageTitle = By.cssSelector("[data-hrl-bo='screen_title']");
+        this.nextButton = By.cssSelector("[data-hrl-bo='wizard-next-button']");
         this.destinationOptions = new ArrayList<>();
-        for (int i = 0; i <= EXPECTED_DESTINATION_OPTIONS_COUNT; i++) {
+        for (int i = 0; i < EXPECTED_DESTINATION_OPTIONS_COUNT; i++) {
             this.destinationOptions.add(By.id("destination-" + i));
         }
     }
@@ -34,6 +34,7 @@ public class SelectDestinationPage {
     // Validations
 
     public boolean isPageTitleExist() {
+        web.waitUntilVisible(pageTitle);
         return web.doesElementExist(pageTitle) && web.isVisible(pageTitle);
     }
 
