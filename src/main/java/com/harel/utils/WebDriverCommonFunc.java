@@ -1,9 +1,6 @@
 package com.harel.utils;
 
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -16,8 +13,6 @@ public class WebDriverCommonFunc {
 
     private WebDriver driver;
     private WebDriverWait wait;
-    private String titleAttribute = "aria-label";
-    private String hrefAttribute = "href";
 
     public WebDriverCommonFunc(WebDriver driver) {
         this.driver = driver;
